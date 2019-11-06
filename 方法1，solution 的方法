@@ -1,0 +1,53 @@
+//Runtime: 36 ms, faster than 21.87% of C++ online submissions for Delete Node in a BST.
+//Memory Usage: 12.8 MB, less than 48.65% of C++ online submissions for Delete Node in a BST.
+
+
+这个方法略显臃肿， 。。。
+```
+class Solution {
+public:
+    
+    int sucessor(TreeNode* root){
+        root=root->right;
+        while(root->left!=NULL){
+            root=root->left;
+        }
+        return root->val;
+    }
+    
+    int predecessor(TreeNode* root){
+        root=root->left;
+        while(root->right!=NULL){
+            root=root->right;
+        }
+        return root->val;
+    }
+    
+    
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(root==NULL) return NULL;
+        if(root->val>key){
+            root->left=deleteNode(root->left, key);
+        }
+        else if(root->val<key){
+            root->right=deleteNode(root->right, key);
+        }
+        
+        // root->val==key
+        else{
+            if(root->left==NULL && root->right==NULL ){
+                root=NULL;
+            }
+            else if(root->left!=NULL){
+                root->val=predecessor(root);
+                root->left=deleteNode(root->left, root->val);
+            }
+            else{
+                root->val=sucessor(root);
+                root->right=deleteNode(root->right, root->val);
+            }
+        }
+        return root;
+    }
+};
+```
